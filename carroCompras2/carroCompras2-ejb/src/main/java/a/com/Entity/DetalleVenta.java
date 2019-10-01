@@ -6,12 +6,12 @@
 package a.com.Entity;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -20,20 +20,31 @@ import javax.persistence.Table;
  * @author LauraDesarrollo
  */
 @Entity
-@Table
-public class DetalleVenta implements Serializable{
-    
+@Table(name = "detalleventa")
+public class DetalleVenta implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int codigo;
-    
-    private Venta venta;
-    
-    @ManyToOne
-    private List<Producto> listaProducto;
-    
+
     @Column
     private int cantidad;
+
+    @JoinColumn(name = "codVenta", referencedColumnName = "codigo")
+    @ManyToOne
+    private Venta venta;
+
+    @JoinColumn(name = "codProducto", referencedColumnName = "codigo")
+    @ManyToOne
+    private Producto producto;
+
+    public DetalleVenta() {
+
+    }
+
+    public DetalleVenta(Integer codigo) {
+        this.codigo = codigo;
+    }
 
     public int getCodigo() {
         return codigo;
@@ -41,6 +52,14 @@ public class DetalleVenta implements Serializable{
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
     public Venta getVenta() {
@@ -51,22 +70,12 @@ public class DetalleVenta implements Serializable{
         this.venta = venta;
     }
 
-    public List<Producto> getListaProducto() {
-        return listaProducto;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setListaProducto(List<Producto> listaProducto) {
-        this.listaProducto = listaProducto;
-    }
-  
-    public int getCantidad() {
-        return cantidad;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-    
-    
-    
 }

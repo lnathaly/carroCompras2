@@ -6,33 +6,57 @@
 package a.com.Entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author LauraDesarrollo
  */
 @Entity
-@Table
-public class Venta implements Serializable{
-    
-     @Id
+@Table(name = "venta")
+public class Venta implements Serializable {
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "total")
+    private BigDecimal total;
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "codigo")
     private int codigo;
-    
-    @Column
+
+    @NotNull
+    @Column(name = "fecha")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    
+
+
+    @JoinColumn(name = "codPersona", referencedColumnName = "cedula")
+    @ManyToOne(optional = false)
     private Cliente cliente;
-    
-    @Column
-    private double total;
+
+    @OneToMany(mappedBy = "venta")
+    private List<DetalleVenta> detalleventaList;
+
+    public Venta() {
+    }
+
+    public Venta(Integer codigo) {
+        this.codigo = codigo;
+    }
 
     public int getCodigo() {
         return codigo;
@@ -50,22 +74,29 @@ public class Venta implements Serializable{
         this.fecha = fecha;
     }
 
-    public Cliente getCliente() {
+
+    public Cliente getCodPersona() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setCodPersona(Cliente codPersona) {
+        this.cliente = codPersona;
     }
 
-    public double getTotal() {
+    public List<DetalleVenta> getDetalleventaList() {
+        return detalleventaList;
+    }
+
+    public void setDetalleventaList(List<DetalleVenta> detalleventaList) {
+        this.detalleventaList = detalleventaList;
+    }
+
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
-    
-    
-    
+
 }
