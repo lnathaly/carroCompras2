@@ -10,9 +10,12 @@
 
         <ui:composition template="./master/masterCliente.xhtml">
             <ui:define name="content">
+                <f:metadata>
+                    <f:event type="preRenderView" listener="#{controllerClie.validarSession()}"/>
+                </f:metadata>
                 <h:form id="tabla" >
                     <p:growl  id="growl" showDetail="true" sticky="true"  />  
-                    <p:panel  header="Bienvenido a su carro de compras" style="text-align: center"></p:panel>
+                    <p:panel  header="Bienvenido a su carro de compras" style="text-align: center"><p:commandButton value="#{msg.cerrarSession}" action="#{controllerClie.cerrarSession()}" /></p:panel>
                     <p:panel header="Realiza tu compra" style="text-align: center">
                         <p:outputLabel value="Producto" />
                         <p:selectOneMenu value="#{controllerIndex.producto}" converter="omnifaces.SelectItemsConverter" >
@@ -44,11 +47,11 @@
                             <p:column headerText="Nombre Producto" >
                                 #{det.producto.nombre}
                             </p:column>
-                            
+
                             <p:column headerText="Cantidad" >
                                 #{det.cantidad}
                             </p:column>
-                            
+
                             <p:column headerText="Subtotal" >
                                 #{det.subtotal}
                             </p:column>
