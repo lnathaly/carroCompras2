@@ -5,6 +5,7 @@
  */
 package a.com.interfaces;
 
+import a.com.Dto.ClienteDto;
 import a.com.Entity.Cliente;
 import java.util.List;
 import javax.ejb.Local;
@@ -29,5 +30,7 @@ public interface ClienteFacadeLocal {
     List<Cliente> findRange(int[] range);
 
     int count();
+    
+    Cliente login(ClienteDto cliente);
     
 }

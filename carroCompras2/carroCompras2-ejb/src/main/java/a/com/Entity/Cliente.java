@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "cliente")
 public class Cliente implements Serializable {
 
-
     @Id
     @NotNull
     @Column(name = "cedula")
@@ -33,9 +32,18 @@ public class Cliente implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "username")
+    private String username;
+
+    @Column(name = "clave")
+    private String clave;
+
+    @Column(name = "rol")
+    private int rol;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente")
     private List<Venta> ventaList;
-    
+
     public int getCedula() {
         return cedula;
     }
@@ -51,6 +59,33 @@ public class Cliente implements Serializable {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public int getRol() {
+        return rol;
+    }
+
+    public void setRol(int rol) {
+        this.rol = rol;
+    }
+    
+    
+    
 
     public Cliente() {
     }
