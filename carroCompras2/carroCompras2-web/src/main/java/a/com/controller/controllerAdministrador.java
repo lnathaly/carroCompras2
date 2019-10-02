@@ -5,16 +5,22 @@
  */
 package a.com.controller;
 
+import a.com.Entity.Cliente;
 import a.com.Entity.Producto;
 import a.com.interfaces.ProductoFacadeLocal;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.servlet.http.HttpSession;
 import org.primefaces.event.RowEditEvent;
 
 /**
@@ -25,6 +31,7 @@ import org.primefaces.event.RowEditEvent;
 @ViewScoped
 public class controllerAdministrador implements Serializable {
 
+    private Cliente clie;
     @EJB
     ProductoFacadeLocal productoFacade;
     List<Producto> listaProd;
@@ -121,6 +128,37 @@ public class controllerAdministrador implements Serializable {
 
     public void setSelectedProducto(Producto selectedProducto) {
         this.selectedProducto = selectedProducto;
+    }
+    
+        public String validarSession() {
+        String redireccion = "administrador";
+        FacesContext fCtx = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+
+        try {
+            clie = (Cliente) session.getAttribute("usuario");
+            System.out.println("entro al administrador");
+
+        } catch (Exception e) {
+        }
+
+        if (clie == null) {
+            try {
+                ec.redirect(ec.getRequestContextPath() + "/faces/index.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(controllerIndex.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        System.out.println(redireccion);
+        return redireccion;
+    }
+        public String cerrarSession() throws IOException {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        System.out.println("Session terminada");
+        return "index";
+
     }
     
  }

@@ -11,6 +11,9 @@
         <ui:composition template="./master/masterAdmin.xhtml">
 
             <ui:define name="content">
+                 <f:metadata>
+                     <f:event type="preRenderView" listener="#{controllerAdministrador.validarSession}"/>
+                </f:metadata>
                 <h:form id="form">
                     <p:growl id="msgs" showDetail="true" />
                     <p:panel header="Lista de productos disponibles para editar" style="text-align: center">
