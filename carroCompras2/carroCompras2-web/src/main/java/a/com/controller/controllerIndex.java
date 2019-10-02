@@ -98,7 +98,7 @@ public class controllerIndex implements Serializable {
         FacesContext fCtx = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
         clie = (Cliente) session.getAttribute("usuario");
-
+        System.out.println("ENtre al boton");
         Venta venta = new Venta();
         venta.setCodPersona(clie);
         venta.setDetalleventaList(listaVenta);
