@@ -7,6 +7,7 @@ package a.com.Entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class Producto implements Serializable {
     @Column
     private int stock;
 
-    @OneToMany(mappedBy = "producto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "producto")
     private List<DetalleVenta> detalleventaList;
 
     public Producto() {

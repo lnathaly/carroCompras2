@@ -7,7 +7,7 @@
 
     <body>
 
-        <ui:composition template="./master/masterCliente.xhtml">
+        <ui:composition template="./master/masterAdmin.xhtml">
 
             <ui:define name="content">
                 <h:form>
@@ -19,10 +19,6 @@
 
                             <p:column headerText="Precio">
                                 <h:outputText value="#{p.precio}" />
-                            </p:column>
-
-                            <p:column headerText="Stok">
-                                <h:outputText value="#{p.stock}" />
                             </p:column>
 
                         </p:dataTable>

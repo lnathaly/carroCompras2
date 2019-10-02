@@ -71,12 +71,7 @@ public class controllerIndex implements Serializable {
 
     }
 
-    public void guardarProducto() {
-        Producto producto = new Producto("leche", 1500, 3);
-        productoFacade.create(producto);
-    }
-
-    public void anadirCarrito() {
+ public void anadirCarrito() {
         DetalleVenta det = new DetalleVenta();
         det.setCantidad(cantidad);
         det.setProducto(producto);

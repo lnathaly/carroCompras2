@@ -6,11 +6,15 @@
 
     <body>
 
-        <ui:composition template="./master/masterCliente.xhtml">
+        <ui:composition template="./master/masterAdmin.xhtml">
 
             <ui:define name="content">
-                <h:commandButton actionListener="agregarProducto" value="Agregar Producto" />
-                <h:commandButton actionListener="listarProductos" value="Lista Productos" />
+                <h:form>
+                    <h:commandButton action="agregarProducto" value="Agregar Producto" style="margin-right:20px;" styleClass="ui-priority-primary"/>
+                    <h:commandButton action="listarProductos" value="Lista Productos" style="margin-right:20px;" styleClass="ui-priority-primary"/>
+                    <h:commandButton action="editarProductos" value="Editar o Eliminar Productos" style="margin-right:20px;" styleClass="ui-priority-primary"/>
+                </h:form>
+
             </ui:define>
 
         </ui:composition>
