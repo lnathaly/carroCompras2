@@ -10,11 +10,15 @@ import a.com.Entity.Cliente;
 import a.com.Entity.DetalleVenta;
 import a.com.Entity.Producto;
 import a.com.Entity.Venta;
+import a.com.interfaces.DetalleVentaFacadeLocal;
 import a.com.interfaces.ProductoFacadeLocal;
 import a.com.interfaces.VentaFacadeLocal;
 import java.io.IOException;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -44,6 +48,9 @@ public class controllerIndex implements Serializable {
 
     @EJB
     VentaFacadeLocal ventaFacade;
+
+    @EJB
+    DetalleVentaFacadeLocal detalleFacade;
 
     private List<DetalleVenta> listaVenta = new ArrayList();
 
@@ -99,10 +106,17 @@ public class controllerIndex implements Serializable {
         HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
         clie = (Cliente) session.getAttribute("usuario");
         System.out.println("ENtre al boton");
+        DetalleVenta detalle = new DetalleVenta();
+
         Venta venta = new Venta();
         venta.setCodPersona(clie);
+        venta.setFecha(Date.from(Instant.EPOCH));
+        venta.setTotal(BigDecimal.ZERO);
         venta.setDetalleventaList(listaVenta);
+        detalle.setVenta(venta);
+
         ventaFacade.create(venta);
+        detalleFacade.create(detalle);  
 
     }
 
