@@ -61,23 +61,21 @@ public class controllerIndex implements Serializable {
         DetalleVenta det = new DetalleVenta();
         det.setCantidad(cantidad);
         det.setProducto(producto);
-        det.setSubtotal((int) (cantidad* producto.getPrecio()));
-        this.listaVenta.add(det);
+        det.setSubtotal((int) (cantidad * producto.getPrecio()));
 
         for (Producto listaProd1 : listaProd) {
             if (listaProd1.getCodigo() == producto.getCodigo()) {
                 int cant = listaProd1.getStock() - cantidad;
-                if (cant <= 0) {
+                if (cant <0) {
                     System.out.println("IF CANT");
-                    cant =0;
-                    listaProd1.setStock(cant);
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lo sentimos", "El stok del producto se ha agotado"));
-                
-                }
+
+                } else {
                     listaProd1.setStock(cant);
                     System.out.println("ELSE");
-                    
-                
+                    this.listaVenta.add(det);
+
+                }
 
             }
         }
