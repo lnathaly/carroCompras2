@@ -30,6 +30,9 @@ public class DetalleVenta implements Serializable {
     @Column
     private int cantidad;
 
+    @Column
+    private int subtotal;
+
     @JoinColumn(name = "codVenta", referencedColumnName = "codigo")
     @ManyToOne
     private Venta venta;
@@ -76,6 +79,14 @@ public class DetalleVenta implements Serializable {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
+    }
+
+    public int getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(int subtotal) {
+        this.subtotal = subtotal;
     }
 
 }

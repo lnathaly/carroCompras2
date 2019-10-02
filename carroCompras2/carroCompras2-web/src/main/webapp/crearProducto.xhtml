@@ -10,45 +10,54 @@
 
         <ui:composition template="./master/masterCliente.xhtml">
             <ui:define name="content">
-                <h:form>
-                    <p:outputLabel value="Producto" />
-                    <p:selectOneMenu value="#{controllerIndex.producto}" converter="omnifaces.SelectItemsConverter" >
-                        <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
-                        <f:selectItems value="#{controllerIndex.listaProd}" var="p" itemLabel="#{p.nombre}" itemValue="#{p}"/>
-                    </p:selectOneMenu>
-                    <p:outputLabel value="Cantidad" />
-                    <p:inputText value="#{controllerIndex.cantidad}" />
-                    <p:commandButton value="Agregar al Carrito" actionListener="#{controllerIndex.anadirCarrito}" update="detalle" />
-                    <p:dataTable var="p" value="#{controllerIndex.listaProd}">
-                        <p:column headerText="Id">
-                            <h:outputText value="#{p.nombre}" />
-                        </p:column>
+                <h:form id="tabla" >
+                    <p:growl  id="growl" showDetail="true" sticky="true"  />  
+                    <p:panel  header="Bienvenido a su carro de compras" style="text-align: center"></p:panel>
+                    <p:panel header="Realiza tu compra" style="text-align: center">
+                        <p:outputLabel value="Producto" />
+                        <p:selectOneMenu value="#{controllerIndex.producto}" converter="omnifaces.SelectItemsConverter" >
+                            <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                            <f:selectItems value="#{controllerIndex.listaProd}" var="p" itemLabel="#{p.nombre}" itemValue="#{p}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Cantidad" />
+                        <p:inputText value="#{controllerIndex.cantidad}" />
+                        <p:commandButton value="Agregar al Carrito" actionListener="#{controllerIndex.anadirCarrito}" update=":tabla:detalle, :tabla:prod, :tabla:growl" />
+                    </p:panel>
+                    <p:panel header="Lista de productos disponibles" style="text-align: center">
+                        <p:dataTable id="prod" var="p" value="#{controllerIndex.listaProd}">
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{p.nombre}" />
+                            </p:column>
 
-                        <p:column headerText="Year">
-                            <h:outputText value="#{p.precio}" />
-                        </p:column>
+                            <p:column headerText="Precio">
+                                <h:outputText value="#{p.precio}" />
+                            </p:column>
 
-                        <p:column headerText="Brand">
-                            <h:outputText value="#{p.stock}" />
-                        </p:column>
+                            <p:column headerText="Stok">
+                                <h:outputText value="#{p.stock}" />
+                            </p:column>
 
-                    </p:dataTable>
+                        </p:dataTable>
+                    </p:panel>
+                    <p:panel header="Compras Realizadas" style="text-align: center">
+                        <p:dataTable id="detalle" value="#{controllerIndex.listaVenta}" var="det">
+                            <p:column headerText="Nombre Producto" >
+                                #{det.producto.nombre}
+                            </p:column>
+                            
+                            <p:column headerText="Cantidad" >
+                                #{det.cantidad}
+                            </p:column>
+                            
+                            <p:column headerText="Subtotal" >
+                                #{det.subtotal}
+                            </p:column>
 
-                    <p:dataTable id="detalle" value="#{controllerIndex.listaVenta}" var="det">
-                        <p:column headerText="Nombre Producto" >
-                            #{det.producto.nombre}
-                        </p:column>
 
-                        <p:column headerText="Precio" >
-                            #{det.producto.precio}
-                        </p:column>
+                        </p:dataTable>
 
-                        <p:column headerText="Cantidad" >
-                            #{det.cantidad}
-                        </p:column>
-                    </p:dataTable>
-
-                    <p:commandButton value="Registrar"/>
+                        <p:commandButton value="Comprar"/>
+                    </p:panel>
                 </h:form>
             </ui:define>
 

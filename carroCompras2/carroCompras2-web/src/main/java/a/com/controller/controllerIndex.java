@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -30,10 +32,12 @@ public class controllerIndex implements Serializable {
     @EJB
     ProductoFacadeLocal productoFacade;
     List<Producto> listaProd;
-    
+
     private List<DetalleVenta> listaVenta = new ArrayList();
 
     private int cantidad;
+
+    private int subtotal;
 
     private Producto producto = new Producto();
 
@@ -54,12 +58,34 @@ public class controllerIndex implements Serializable {
     }
 
     public void anadirCarrito() {
-        System.out.println("ENtre a agregar");
         DetalleVenta det = new DetalleVenta();
         det.setCantidad(cantidad);
         det.setProducto(producto);
+        det.setSubtotal((int) (cantidad* producto.getPrecio()));
         this.listaVenta.add(det);
-        
+
+        for (Producto listaProd1 : listaProd) {
+            if (listaProd1.getCodigo() == producto.getCodigo()) {
+                int cant = listaProd1.getStock() - cantidad;
+                if (cant <= 0) {
+                    System.out.println("IF CANT");
+                    cant =0;
+                    listaProd1.setStock(cant);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Lo sentimos", "El stok del producto se ha agotado"));
+                
+                }
+                    listaProd1.setStock(cant);
+                    System.out.println("ELSE");
+                    
+                
+
+            }
+        }
+
+    }
+
+    public void realizarCompra() {
+
     }
 
     public List<Producto> listarProductos() {
@@ -106,6 +132,14 @@ public class controllerIndex implements Serializable {
 
     public void setListaVenta(List<DetalleVenta> listaVenta) {
         this.listaVenta = listaVenta;
+    }
+
+    public int getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(int subtotal) {
+        this.subtotal = subtotal;
     }
 
 }
