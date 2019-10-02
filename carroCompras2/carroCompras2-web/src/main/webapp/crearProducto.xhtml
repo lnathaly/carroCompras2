@@ -3,14 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
         <ui:composition template="./master/masterCliente.xhtml">
             <ui:define name="content">
                 <h:form>
-
+                    <p:outputLabel value="Producto" />
+                    <p:selectOneMenu value="#{controllerIndex.producto}" converter="omnifaces.SelectItemsConverter" >
+                        <f:selectItem noSelectionOption="true" itemLabel="Seleccione" itemValue="#{null}"/>
+                        <f:selectItems value="#{controllerIndex.listaProd}" var="p" itemLabel="#{p.nombre}" itemValue="#{p}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Cantidad" />
+                    <p:inputText value="#{controllerIndex.cantidad}" />
+                    <p:commandButton value="Agregar al Carrito" actionListener="#{controllerIndex.anadirCarrito}" update="detalle" />
                     <p:dataTable var="p" value="#{controllerIndex.listaProd}">
                         <p:column headerText="Id">
                             <h:outputText value="#{p.nombre}" />
@@ -25,6 +33,22 @@
                         </p:column>
 
                     </p:dataTable>
+
+                    <p:dataTable id="detalle" value="#{controllerIndex.listaVenta}" var="det">
+                        <p:column headerText="Nombre Producto" >
+                            #{det.producto.nombre}
+                        </p:column>
+
+                        <p:column headerText="Precio" >
+                            #{det.producto.precio}
+                        </p:column>
+
+                        <p:column headerText="Cantidad" >
+                            #{det.cantidad}
+                        </p:column>
+                    </p:dataTable>
+
+                    <p:commandButton value="Registrar"/>
                 </h:form>
             </ui:define>
 
